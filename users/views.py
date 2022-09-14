@@ -1,16 +1,18 @@
-from django.shortcuts import render
-
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from users.models import User
+from users.permissions import CustomPermission
 from users.serializers import UserSerializer, UserCreateSerializer, SignInSerializer
 
 
 class UserListApiView(APIView):
     ''' 유저 조회 API'''
+
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
     def get(self, request):
         users = User.objects.all()
         users_serializer = UserSerializer(users, many=True)
@@ -19,6 +21,9 @@ class UserListApiView(APIView):
 
 class UserAPIView(APIView):
     ''' 유저 회원가입 및 수정, 탈퇴 API '''
+
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
     def post(self, request):
         user_serializer = UserCreateSerializer(data=request.data)
         if user_serializer.is_valid():
@@ -37,13 +42,15 @@ class UserAPIView(APIView):
     def delete(self, request, user_id):
         user = User.objects.get(id=user_id)
         if user:
-            user.delete()
+            # user.delete()
             return Response({"message": "삭제 완료"}, status=status.HTTP_200_OK)
         return Response({"message": "유저가 없습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class SignInAPIView(APIView):
     ''' 로그인 API '''
+    permission_classes = [AllowAny]
+
     def post(self, request):
         login_serializer = SignInSerializer(data=request.data)
 

@@ -38,7 +38,7 @@ class User(AbstractBaseUser, TimeStampModel):
     password = models.CharField("비밀번호", max_length=255)
     mobile = models.CharField("전화번호", max_length=20)
     address = models.CharField("주소", max_length=200)
-    profile_img = models.ImageField("프로필이미지", upload_to="", blank=True)
+    profile_img = models.ImageField("프로필이미지", upload_to="users/images/%Y/%m/%d/", blank=True)
 
     is_active = models.BooleanField("계정활성화", default=True)
     is_admin = models.BooleanField("관리자", default=False)
