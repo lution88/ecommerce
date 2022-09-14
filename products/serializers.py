@@ -46,3 +46,14 @@ class ProductSerializer(serializers.ModelSerializer):
         for image in images.getlist("pd_image"):
             ProductImage.objects.create(product=product, product_image=image)
         return product
+
+    def update(self, instance, validated_data):
+        print(self.context["request"].FILES)
+        # images = self.context["request"].FILES
+        # for image in images.getlist("pd_image"):
+        #     product = ProductImage.objects.get(id=product_id)
+        #     ProductImage.objects.update(product=product, product_image=image)
+        for key, value in validated_data.items():
+            setattr(instance, key, value)
+
+        return instance
