@@ -32,6 +32,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, TimeStampModel):
+    """ 유저 모델 """
     email = models.EmailField("이메일", unique=True)
     username = models.CharField("유저네임", max_length=50)
     password = models.CharField("비밀번호", max_length=255)
@@ -41,7 +42,7 @@ class User(AbstractBaseUser, TimeStampModel):
 
     is_active = models.BooleanField("계정활성화", default=True)
     is_admin = models.BooleanField("관리자", default=False)
-    is_staff = models.BooleanField("판매자", default=False)
+    is_seller = models.BooleanField("판매자", default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']

@@ -16,7 +16,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': True},
             'email': {
-                'error_message':{
+                'error_messages':{
                     'required': '이메일을 다시 확인해주세요.',
                     'invalid': '알맞은 형식의 이메일을 입력해주세요.',
                 },
