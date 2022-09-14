@@ -27,7 +27,6 @@ class UserManager(BaseUserManager):
             password=password,
         )
         user.is_admin = True
-        user.is_staff = True
         user.save(using=self._db)
         return user
 
@@ -45,14 +44,14 @@ class User(AbstractBaseUser, TimeStampModel):
     is_staff = models.BooleanField("판매자", default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
     objects = UserManager()
 
     def has_perm(self, perm, obj=None):
         return True
 
-    def has_module_perm(self, app_label):
+    def has_module_perms(self, app_label):
         return True
 
     @property
