@@ -1,5 +1,9 @@
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import (
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+    AllowAny,
+)
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -9,7 +13,7 @@ from users.serializers import UserSerializer, UserCreateSerializer, SignInSerial
 
 
 class UserListApiView(APIView):
-    ''' 유저 조회 API'''
+    """유저 조회 API"""
 
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -20,7 +24,7 @@ class UserListApiView(APIView):
 
 
 class UserAPIView(APIView):
-    ''' 유저 회원가입 및 수정, 탈퇴 API '''
+    """유저 회원가입 및 수정, 탈퇴 API"""
 
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -48,7 +52,8 @@ class UserAPIView(APIView):
 
 
 class SignInAPIView(APIView):
-    ''' 로그인 API '''
+    """로그인 API"""
+
     permission_classes = [AllowAny]
 
     def post(self, request):

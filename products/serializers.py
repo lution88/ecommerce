@@ -6,7 +6,8 @@ from .models import Product, ProductImage, ProductOption
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
-    """ 상품 이미지 serializer """
+    """상품 이미지 serializer"""
+
     image = serializers.ImageField(use_url=True)
 
     class Meta:
@@ -15,8 +16,9 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    """ 상품 serializer """
-    images = serializers.SerializerMethodField()
+    """상품 serializer"""
+
+    pd_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -29,14 +31,18 @@ class ProductSerializer(serializers.ModelSerializer):
             "region",
             "delivery_method",
             "delivery_charge",
-            "images",
+            "pd_image",
         ]
 
-    def get_images(self, obj):
-        image = obj.pd_image.all()
+    def get_pd_image(self, obj):
+        pd_image = obj.pd_image.all()
         return ProductImageSerializer(
-            instance=image,
-            many=True,
-            context=self.context
+            instance=pd_image, many=True, context=self.context
         ).data
 
+    def create(self, validated_data):
+        product = Product.objects.create(**validated_data)
+        pd_image = self.context["request"].FILES
+        for image in pd_image.getlist("image"):
+            ProductImage.objects.create(product=product, product_image=image)
+        return product

@@ -32,20 +32,23 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, TimeStampModel):
-    """ 유저 모델 """
+    """유저 모델"""
+
     email = models.EmailField("이메일", unique=True)
     username = models.CharField("유저네임", max_length=50)
     password = models.CharField("비밀번호", max_length=255)
     mobile = models.CharField("전화번호", max_length=20)
     address = models.CharField("주소", max_length=200)
-    profile_img = models.ImageField("프로필이미지", upload_to="users/images/%Y/%m/%d/", blank=True)
+    profile_img = models.ImageField(
+        "프로필이미지", upload_to="users/images/%Y/%m/%d/", blank=True
+    )
 
     is_active = models.BooleanField("계정활성화", default=True)
     is_admin = models.BooleanField("관리자", default=False)
     is_seller = models.BooleanField("판매자", default=False)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
     objects = UserManager()
 
@@ -60,4 +63,4 @@ class User(AbstractBaseUser, TimeStampModel):
         return self.is_admin
 
     def __str__(self):
-        return f'{self.username} / {self.email}'
+        return f"{self.username} / {self.email}"

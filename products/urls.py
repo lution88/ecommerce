@@ -5,5 +5,5 @@ from .views import ProductAPIView, ProductsAPIView
 
 urlpatterns = [
     path("", ProductsAPIView.as_view()),
-    path("<int:product_id>/", ProductAPIView.as_view())
+    path("<int:product_id>/", ProductAPIView.as_view()),
 ]

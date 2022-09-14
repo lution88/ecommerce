@@ -5,26 +5,36 @@ from users.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    ''' 유저 조회 serializer '''
+    """유저 조회 serializer"""
+
     class Meta:
         model = User
         fields = ["id", "username", "email", "profile_img"]
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
-    ''' 유저 생성, 조회, 삭제 serializer '''
+    """유저 생성, 조회, 삭제 serializer"""
+
     class Meta:
         model = User
-        fields = ["id", "email", "username", "password", "mobile", "address", "profile_img"]
+        fields = [
+            "id",
+            "email",
+            "username",
+            "password",
+            "mobile",
+            "address",
+            "profile_img",
+        ]
         extra_kwargs = {
-            'password': {'write_only': True},
-            'email': {
-                'error_messages':{
-                    'required': '이메일을 다시 확인해주세요.',
-                    'invalid': '알맞은 형식의 이메일을 입력해주세요.',
+            "password": {"write_only": True},
+            "email": {
+                "error_messages": {
+                    "required": "이메일을 다시 확인해주세요.",
+                    "invalid": "알맞은 형식의 이메일을 입력해주세요.",
                 },
-                'required': True
-            }
+                "required": True,
+            },
         }
 
     def create(self, validated_data):
@@ -34,7 +44,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
-        password = validated_data.pop('password', None)
+        password = validated_data.pop("password", None)
         for key, value in validated_data.items():
             setattr(instance, key, value)
         if password is not None:
@@ -45,7 +55,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class SignInSerializer(TokenObtainPairSerializer):
-    ''' 로그인 serializer '''
+    """로그인 serializer"""
+
     def validate(self, data):
         email = data.get("email")
         password = data.get("password")
