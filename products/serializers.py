@@ -8,11 +8,11 @@ from .models import Product, ProductImage, ProductOption
 class ProductImageSerializer(serializers.ModelSerializer):
     """상품 이미지 serializer"""
 
-    image = serializers.ImageField(use_url=True)
+    product_image = serializers.ImageField(use_url=True)
 
     class Meta:
         model = ProductImage
-        fields = ["image"]
+        fields = ["product_image"]
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -42,7 +42,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         product = Product.objects.create(**validated_data)
-        pd_image = self.context["request"].FILES
-        for image in pd_image.getlist("image"):
+        images = self.context["request"].FILES
+        for image in images.getlist("pd_image"):
             ProductImage.objects.create(product=product, product_image=image)
         return product
