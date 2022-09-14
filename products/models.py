@@ -23,7 +23,7 @@ class ProductImage(models.Model):
         Product,
         verbose_name="제품",
         on_delete=models.CASCADE,
-        related_name="product_image"
+        related_name="pd_image"
     )
     product_image = models.ImageField(upload_to="products/images/%Y/%m/%d/", blank=True)
 
